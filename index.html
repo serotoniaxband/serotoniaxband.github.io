@@ -326,7 +326,7 @@
       <a class="lnk" href="https://www.instagram.com/serotonia.band" target="_blank" rel="noopener"><span class="ico">📸</span> Instagram</a>
       <a class="lnk" href="https://youtube.com/@theserotoniaband" target="_blank" rel="noopener"><span class="ico">▶️</span> YouTube</a>
       <a class="lnk" href="https://www.tiktok.com/@serotonia.band" target="_blank" rel="noopener"><span class="ico">🎵</span> TikTok</a>
-      <a class="lnk" href="mailto:serotoniaband@gmail.com"><span class="ico">✉️</span> serotoniaband@gmail.com</a>
+      <a class="lnk" id="mailbtn" href="mailto:serotoniaxband@gmail.com"><span class="ico">✉️</span> <span id="mailtxt">serotoniaxband@gmail.com</span></a>
       <!-- ^ update BOTH the mailto: address and the visible text if the email changes -->
     </div>
 
@@ -350,6 +350,29 @@
     n += Math.random() < 0.5 ? 1 : 0;
     if(ctr){ ctr.textContent = pad7(n); }
   }, 4000);
+
+  // Email button: tries to open the mail app (mailto), AND copies the address as a backup.
+  // Instagram's in-app browser often blocks mailto links, so the copy + "copied" message makes sure people can still reach you.
+  (function(){
+    var btn = document.getElementById('mailbtn');
+    var txt = document.getElementById('mailtxt');
+    var addr = 'serotoniaxband@gmail.com';
+    if(!btn || !txt){ return; }
+    btn.addEventListener('click', function(){
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(addr);
+        } else {
+          var t = document.createElement('textarea');
+          t.value = addr; t.style.position = 'fixed'; t.style.opacity = '0';
+          document.body.appendChild(t); t.select();
+          document.execCommand('copy'); document.body.removeChild(t);
+        }
+      }catch(e){}
+      txt.textContent = 'email copied ✓';
+      setTimeout(function(){ txt.textContent = addr; }, 2200);
+    });
+  })();
 </script>
 
 </body>
